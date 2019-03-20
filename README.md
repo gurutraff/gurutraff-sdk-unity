@@ -35,7 +35,8 @@ Content of GuruTraffSDK.unitypackage:
 - /Assets/Plugins/Android/gurutraffunity.aar: Interlayer for calling methods GuruTraff for Android using C# code;
 
 - /Assets/Plugins/Android/play-services-basement-11.0.4.aar: library for Android, required to obtain Google Advertise Id.
-	 **:exclamation:If your project already has this library, but the version is different, you need to keep only one version of the library.**
+
+**:exclamation:If your project already has this library, but the version is different, you need to keep only one version of the library.**
 
 - /Assets/Plugins/iOS/libGuruTraffSDKUnity.a: GuruTraff iOS library
 
