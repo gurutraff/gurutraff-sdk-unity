@@ -57,60 +57,40 @@ To initialize the GuruTraff SDK, you need to call in your code:
 AppUserId will be passed on from the ad server to your pre-registered server to reward the user for viewing the advertisements.
 
   
+**:exclamation: If you have in-app purchases, you must send them using one of the following methods:**
 
-**:exclamation:If you have in-app purchases, you must send them using the following method:**
+If you're using the plugin for purchases from Unity3D, you can call a universal method for Android and iOS:
+	
+	GuruTraff.PurchaseEvent(PurchaseEventArgs eventArgs);
+*or*
+
+	GuruTraff.PurchaseEvent(Product product);
+If you're using other plugins, call one of the following methods:
 
 For Android:
 
 	PurchaseEventAndroid (double price, string currency, string receipt, string signature)
-
 For iOS:
 
 	PurchaseEventIOS (double price, string currency, string transactionId)
-
   
   
 
 ### Step 3: Showing advertising
 
-a) We recommend to pre-cache the appropriate type of advertising using the methods:
-
-	GuruTraff.CacheInterstitial("placementId"); //For interstitial ads
+a) We recommend to pre-cache ads using the method:
 	
-	GuruTraff.CacheVideo ("placementId"); //For video ads
+	GuruTraff.CacheVideo ("placementId");
 
-b) You can check whether cached ads are available using the methods:
+b) You can check whether cached ads are available using the method:
 
-	GuruTraff.IsReadyInterstitial ("placementId"); //For interstitial ads
-	
-	GuruTraff.IsReadyVideo ("placementId"); //For video ads
+	GuruTraff.IsReadyVideo ("placementId");
 
-c) You can show ads using methods:
+c) You can show ads using the method:
 
-	GuruTraff.ShowInterstitial ("placement Id"); //For interstitial ads
-
-	GuruTraff.ShowVideo ("placementId"); //For video ads
+	GuruTraff.ShowVideo ("placementId");
 
 d) You can subscribe to the events, to track changes in the advertising states (conditions)
-
-**For interstitial ads:**
-
-	InterstitialDidCache; //resources were cached to display interstitial ads
-
-	InterstitialDidFailToLoad (AdError); //error loading interstitial advertising
-
-	InterstitialWindowWillDisplay; //called before opening the advertisement window
-
-	InterstitialWindowDidDisplay; //called after the advertisement window has opened on the display
-
-	InterstitialWindowWillClose; // alled before closing the advertising window
-
-	InterstitialWindowDidClose; //called after the advertisement window was closed
-
-	InterstitialDidClick; //player tapped on the advertisement
-
-	InterstitialReceiveReward; //player can be rewarded for viewing ads
-
   
 
 **For video advertising:**
@@ -155,3 +135,34 @@ Before showing ads, you need to pause all the sounds in the game.
 ### Step 4: Done! 
 
 Now you can show ads in your application.
+
+
+
+## * Reward users on install
+To improve the score of the traffic, we recommend rewarding players for installing the advertised games. 
+With our API you can get the necessary information to reward the player with virtual currency (such as crystals, coins...)
+
+To request the information regarding the reward when starting the game and after switching from the background to the active mode, we recommend calling the method:
+
+	GuruTraff.RequestMotivatedRewards();
+
+To process the received information, you can subscribe to the events:
+	
+	//On receiving successful information from the server
+	GuruTraff.ReceiveMotivatedRewards += ReceiveMotivatedRewardsHandler;
+	//In case of error.
+	GuruTraff.FailedRequestMotivatedRewards += FailedRequestMotivatedRewardsHandler; 
+You must subscribe to the events before requesting for the rewards GuruTraff.RequestMotivatedRewards ()
+
+The handler of received information(ReceiveMotivatedRewardsHandler) you will receive an array of data MotivatedRewardInfo[], where each element contains:
+	- RewardId - reward id
+	- AppName - the name of the installed application
+	- AmountOfReward - the amount of virtual currency that needs to be credited to the player
+The handler returns a bool value, where true - automatically remove received rewards from the GuruTraff server, false - if you want to remove it manually.
+
+If your reward handler returns false, you need to manually call the method
+
+	GuruTraff.RemoveMotivatedRewards(rewardIdsToRemove); 
+where rewardIdsToRemove is an array of reward identifiers received in ReceiveMotivatedRewardsHandler.
+
+ **:exclamation: For the rewards to work correctly, it is necessary to install AppUserId - the user ID on your server, before requesting advertising, if this is not done the users' motivation will not work.**
