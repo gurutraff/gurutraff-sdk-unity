@@ -80,15 +80,15 @@ For iOS:
 
 a) We recommend to pre-cache ads using the method:
 	
-	GuruTraff.CacheVideo ("placementId");
+	GuruTraff.CacheVideo ("placementName");
 
 b) You can check whether cached ads are available using the method:
 
-	GuruTraff.IsReadyVideo ("placementId");
+	GuruTraff.IsReadyVideo ("placementName");
 
 c) You can show ads using the method:
 
-	GuruTraff.ShowVideo ("placementId");
+	GuruTraff.ShowVideo ("placementName");
 
 d) You can subscribe to the events, to track changes in the advertising states (conditions)
   
