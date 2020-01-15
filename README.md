@@ -121,6 +121,8 @@ Possible errors while loading ads:
 
 - ErrorNoFreeDiskSpace - there is no space on the disk
 
+- NoConnectionToServer - no connection to our server
+
 > Note:
 > 
 > It is possible not to cache the advertisement in advance, but in this
